@@ -1,0 +1,7 @@
+sources:
+  - name: src1
+    database: dwh_dev
+    schema: aplload
+    tables:
+      - name: customers
+      - name: orders
