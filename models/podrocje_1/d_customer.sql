@@ -6,7 +6,13 @@
     merge_update_columns = ['first_name', 'last_name', 'email', 'city', 'segment',
                              'dwh_updated_at'],
     tmp_relation_type    = 'table',
-    on_schema_change     = 'append_new_columns'
+    on_schema_change     = 'append_new_columns',
+    post_hook = "
+        insert into {{ this }} (d_customer_sid, customer_id, first_name, last_name, email, city, segment,
+                                dwh_inserted_at, dwh_updated_at)
+        select -1, -1, 'N/A', 'N/A', 'N/A', 'N/A', 'N/A', {{ load_ts() }}, {{ load_ts() }}
+        from (select 1) as dummy
+        where not exists (select 1 from {{ this }} where d_customer_sid = -1)"
 ) }}
 
 with src as (

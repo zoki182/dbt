@@ -17,7 +17,13 @@
 {{ config(
     materialized = 'table',
     transient    = false,
-    copy_grants  = true
+    copy_grants  = true,
+    post_hook = "
+        insert into {{ this }} (d_product_sid, product_code, product_name, category, list_price, is_active,
+                                dwh_inserted_at, dwh_updated_at)
+        select -1, '-1', 'N/A', 'N/A', null, true, {{ load_ts() }}, {{ load_ts() }}
+        from (select 1) as dummy
+        where not exists (select 1 from {{ this }} where d_product_sid = -1)"
 ) }}
 
 {%- set existing = adapter.get_relation(this.database, this.schema, this.identifier) if execute else none -%}

@@ -45,3 +45,8 @@ models:
       +schema: aplsdb
       +materialized: table 
       +copy_grants: true
+  
+
+snapshots: 
+  my_new_project:
+    +schema: aplsdb
