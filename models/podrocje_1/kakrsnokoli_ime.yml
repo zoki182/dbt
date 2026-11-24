@@ -1,0 +1,51 @@
+version: 2
+
+models:
+  - name: d_product
+    description: "SCD1  (materialized=table). transient=false, copy_grants=true."
+    columns:
+      - name: product_code
+        description: unique kljuc tabele
+        data_tests: [unique, not_null]
+
+  - name: d_customer
+    description: "SCD1 - incremental, merge"
+    columns:
+      - name: customer_id
+        data_tests: [unique, not_null]
+
+  
+ 
+
+  - name: f_sales
+    description: >
+      Fact prodaje. SID-i dimenzij: SCD1 po poslovnem ključu, SCD2 (snapshot d_employee)
+      po verziji, veljavni ob SALE_TS. Neznano -> -1.
+    columns:
+      - name: sale_id
+        data_tests: [unique, not_null]
+      - name: amount
+        data_tests: [not_null]
+
+      # "Foreign key" testi: vsak SID v factu mora obstajati v dimenziji
+      - name: d_product_sid
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('d_product')
+                field: d_product_sid
+      - name: d_customer_sid
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('d_customer')
+                field: d_customer_sid
+      - name: d_employee_sid
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('d_employee')
+                field: d_employee_sid

@@ -15,6 +15,6 @@ sources:
       - name: st_hr__employees
         identifier: ST_HR__EMPLOYEES
         description: "Vir HR - zaposleni"
-      - name: st_pos__stores
-        identifier: ST_POS__STORES
+      - name: st_pos__sales
+        identifier: ST_POS__SALES
         description: "Vir POS - poslovalnice"
