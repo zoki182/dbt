@@ -1,0 +1,20 @@
+version: 2
+
+sources:
+  - name: aplload
+    description: "Stage tabele (polnjenje iz različnih virov)"
+    database: "{{ target.database }}"   # DWH_DEV / DWH_TEST / DWH_PROD glede na okolje
+    schema: APLLOAD
+    tables:
+      - name: st_crm__customers
+        identifier: ST_CRM__CUSTOMERS
+        description: "Vir CRM - stranke"
+      - name: st_erp__products
+        identifier: ST_ERP__PRODUCTS
+        description: "Vir ERP - izdelki"
+      - name: st_hr__employees
+        identifier: ST_HR__EMPLOYEES
+        description: "Vir HR - zaposleni"
+      - name: st_pos__stores
+        identifier: ST_POS__STORES
+        description: "Vir POS - poslovalnice"
