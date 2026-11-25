@@ -24,8 +24,7 @@ with src as (
         email,
         city,
         segment,
-        registration_date,
-        stolpec1
+        registration_date
     from {{ source('aplload', 'st_crm__customers') }}
 
 )
@@ -37,7 +36,6 @@ select
     src.last_name,
     src.email,
     src.city,
-    src.stolpec1,
     src.segment,
     src.registration_date,
     {{ load_ts() }}                       as dwh_inserted_at,  -- samo pri INSERT-u
