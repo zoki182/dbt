@@ -32,7 +32,6 @@ with src as (
 
     select
         product_code,
-        stolpec1,
         product_name,
         category,
         list_price,
@@ -48,7 +47,6 @@ select
     {{ seq_nextval('D_PRODUCT_SEQ') }}                               as d_product_sid,
     {%- endif %}
     src.product_code,
-    --src.stolpec1,
     src.product_name,
     src.category,
     src.list_price,
