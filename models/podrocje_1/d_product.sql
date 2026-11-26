@@ -1,19 +1,4 @@
-{#
-  D_PRODUCT  -  SCD1, varianta "DROP & RECREATE"
-  ------------------------------------------------
-  materialized='table' -> vsak run: CREATE OR REPLACE TABLE ... AS SELECT
-  Tabela se v celoti zgradi na novo iz stage-a.
 
-  POZOR pri sekvencah: če bi vsakič vzeli nov NEXTVAL, bi vsi izdelki
-  ob vsakem runu dobili nov SID (in facti bi kazali v prazno).
-  Zato obstoječi SID preberemo iz trenutne tabele ({{ this }}) in nov
-  NEXTVAL dobijo samo novi izdelki. Snowflake dovoli, da CREATE OR REPLACE
-  bere iz tabele, ki jo zamenjuje.
-
-  transient=false / copy_grants=true:
-    - permanentna tabela (Time Travel + fail-safe, dovoljen clone v backup)
-    - ob CREATE OR REPLACE se ohranijo GRANT-i, ki jih je nastavil DBA
-#}
 {{ config(
     materialized = 'table',
     transient    = false,
@@ -27,6 +12,9 @@
 ) }}
 
 {%- set existing = adapter.get_relation(this.database, this.schema, this.identifier) if execute else none -%}
+
+
+
 
 with src as (
 
